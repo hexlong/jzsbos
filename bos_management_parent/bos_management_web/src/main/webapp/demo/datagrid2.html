@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<!-- 导入jquery核心类库 -->
+<script type="text/javascript" src="../js/jquery-1.8.3.js"></script>
+<!-- 导入easyui类库 -->
+<script type="text/javascript" src="../js/easyui/jquery.easyui.min.js"></script>
+<!--引入ztree的js类库  -->
+<script type="text/javascript" src="../js/ztree/jquery.ztree.all-3.5.js"></script>
+<!-- 导入默认主题CSS文件 -->
+<link id="easyuiTheme" rel="stylesheet" type="text/css"
+	href="../js/easyui/themes/default/easyui.css" />
+<!--  导入图标CSS文件 -->
+<link rel="stylesheet" type="text/css"
+	href="../js/easyui/themes/icon.css" />
+<!--引入ztree的CSS文件  -->
+<link rel="stylesheet" type="text/css" href="../js/ztree/zTreeStyle.css" />
+<!--  导入国际化信息文件 -->
+</head>
+<script>
+	var isEditingRowIndex = -1;
+	var columns = [ [ {
+		field : 'name',
+		title : '姓名',
+		width : 200,
+		editor : {
+			type : 'validatebox',
+			options : {
+				required : true
+			}
+		}
+	}, {
+		field : 'gender',
+		title : '性别',
+		width : 200,
+		editor : {
+			type : 'combobox',
+			options : {
+				editable : false,
+				url : '../data/gender.json',
+				textField : 'name',
+				valueField : 'value'
+			}
+		}
+	}, {
+		field : 'age',
+		title : '年龄',
+		width : 200,
+		editor : {
+			type : 'numberbox',
+			options : {}
+		}
+	}, {
+		field : 'birthday',
+		title : '生日',
+		width : 200,
+		editor : {
+			type : 'datebox',
+			options : {
+				editable : false
+			}
+		}
+	} ] ]
+
+	$(function() {
+		$("#grid").datagrid({
+			url : "",
+			columns : columns,
+			toolbar : [ {
+
+				iconCls : "icon-add",
+				text : "新增",
+				handler : function() {
+					if (isEditingRowIndex != -1) {
+						$.messager.alert("提示", "请先保存当前数据");
+						return;
+					}
+					$("#grid").datagrid('insertRow', {
+						index : 0,
+						row : {
+							'age' : 20
+						}
+					})
+					//添加开始编辑的效果
+					$("#grid").datagrid('beginEdit', 0);
+					isEditingRowIndex = 0;
+				}
+			}, {
+				iconCls : "icon-save",
+				text : "保存",
+				handler : function() {
+					//关闭编辑
+					$("#grid").datagrid('endEdit', isEditingRowIndex);
+					isEditingRowIndex = -1;
+					//
+				}
+			}, {
+				iconCls : "icon-cancel",
+				text : "取消",
+				handler : function() {
+					$("#grid").datagrid('cancelEdit', isEditingRowIndex);
+					isEditingRowIndex = -1;
+				}
+			}
+
+			],
+			onDblClickRow : function(rowIndex, rowData) {
+				if (isEditingRowIndex != -1) {
+					$.messager.alert("提示", "请先保存当前数据");
+					return;
+				}
+				$("#grid").datagrid('beginEdit', rowIndex);
+				isEditingRowIndex = rowIndex;
+			},
+			//在编辑之后保存数据到后台
+			onAfterEdit : function(rowIndex, rowData, changes) {
+				alert(JSON.stringify(rowData))
+			}
+		})
+	})
+</script>
+<body>
+	<table id="grid"></table>
+</body>
+</html>
+
+
+
+

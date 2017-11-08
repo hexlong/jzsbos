@@ -1,0 +1,24 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../config/ehcache.xsd">
+
+  
+    <diskStore path="java.io.tmpdir"/>
+
+    
+<!--     内存中最大的元素 -->
+<!--             是否永久保存 -->
+<!--             空闲的最长时间 -->
+<!--             存活最长时间 -->
+<!--             硬盘中最大的时间 -->
+<!--              线程存活的时间 -->
+<!--             内存的驱逐策略 -->
+<defaultCache
+            maxElementsInMemory="10000"
+            eternal="false"
+            timeToIdleSeconds="1200"
+            timeToLiveSeconds="1200"
+            maxElementsOnDisk="10000000"
+            diskExpiryThreadIntervalSeconds="120"
+            memoryStoreEvictionPolicy="LRU">
+        <persistence strategy="localTempSwap"/>
+    </defaultCache>
+</ehcache>

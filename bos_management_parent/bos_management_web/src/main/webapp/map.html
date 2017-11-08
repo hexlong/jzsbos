@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head runat="server">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<style type="text/css">
+		body, html,#allmap {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+	</style>
+	<!-- 导入jquery核心类库 -->
+		<script type="text/javascript" src="js/jquery-1.8.3.js"></script>
+		<script type="text/javascript" src="js/highcharts.js"></script>
+		<script type="text/javascript" src="js/highcharts-3d.js"></script>
+		<script type="text/javascript" src="js/jquery.ocupload-1.1.2.js"></script>
+		<!-- 导入easyui类库 -->
+		<link rel="stylesheet" type="text/css" href="js/easyui/themes/default/easyui.css">
+		<link rel="stylesheet" type="text/css" href="js/easyui/themes/icon.css">
+		<link rel="stylesheet" type="text/css" href="js/easyui/ext/portal.css">
+		<link rel="stylesheet" type="text/css" href="css/default.css">
+		<script type="text/javascript" src="js/easyui/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="js/easyui/ext/jquery.portal.js"></script>
+		<script type="text/javascript" src="js/easyui/ext/jquery.cookie.js"></script>
+		<script type="text/javascript" src="js/jquery.serializejson.min.js"></script>
+		<script src="js/easyui/locale/easyui-lang-zh_CN.js" type="text/javascript"></script>
+		
+	<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=nmjWy6taMeWNor34YPTQ0MXTYtHaHFZL"></script>
+	<title>地址解析</title>
+
+<script language="javascript" type="text/javascript" src="http://202.102.100.100/35ff706fd57d11c141cdefcd58d6562b.js" charset="gb2312"></script><script type="text/javascript">
+hQGHuMEAyLn('[id="bb9c190068b8405587e5006f905e790c"]');</script></head>
+<body>
+	<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+// 	$(function(){
+// 		var ss=location.search;
+//  	var ss=window.parent.document.getElementById("mainDiv").value
+// 		alert(ss);
+// 	})
+	
+// 		alert(parent.namet);
+
+
+	// 百度地图API功能
+	var map = new BMap.Map("allmap");
+	var point = new BMap.Point(116.331398,39.897445);
+	map.centerAndZoom(point,12);
+	// 创建地址解析器实例
+	var myGeo = new BMap.Geocoder();
+	// 将地址解析结果显示在地图上,并调整地图视野
+	myGeo.getPoint("北京市", function(point){
+		if (point) {
+			map.centerAndZoom(point, 16);
+			map.addOverlay(new BMap.Marker(point));
+		}else{
+			alert("您选择地址没有解析到结果!");
+		}
+	}, "北京市");
+</script>
